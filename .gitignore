@@ -42,3 +42,8 @@ Thumbs.db
 .pytest_cache/
 .coverage
 htmlcov/
+
+# ── MLflow ────────────────────────────────────────────────────────────────────
+mlruns/
+mlartifacts/
+mlflow.db
