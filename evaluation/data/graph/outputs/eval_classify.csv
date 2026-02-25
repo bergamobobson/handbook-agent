@@ -1,0 +1,4 @@
+input,expected_intent,actual_intent,pass
+Hi!,conversational,conversational,True
+What are Agile Lab's core values?,handbook,handbook,True
+What is Docker?,off_topic,off_topic,True

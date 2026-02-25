@@ -13,9 +13,9 @@ from rich.table import Table
 console = Console()
 
 # Base configuration
-BASE_URL    = "https://handbook.agilelab.it"
+BASE_URL = "https://handbook.agilelab.it"
 OUTPUT_PATH = Path("./data/corpus.json")
-DELAY       = 0.4   # delay between requests
+DELAY = 0.4  # delay between requests
 
 
 def parse_sidebar(soup: BeautifulSoup) -> list[dict]:
@@ -33,12 +33,12 @@ def parse_sidebar(soup: BeautifulSoup) -> list[dict]:
     level_to_title: dict[str, str] = {}
 
     for li in items:
-        level     = li["data-level"]                 # e.g. "1.3.8"
+        level = li["data-level"]  # e.g. "1.3.8"
         data_path = li.get("data-path", "").strip()  # e.g. "VacationPolicies.html"
-        depth     = len(level.split("."))
+        depth = len(level.split("."))
 
         # link or span (non-clickable section headers)
-        a    = li.find("a", href=True)
+        a = li.find("a", href=True)
         span = li.find("span")
 
         if a:
@@ -67,17 +67,19 @@ def parse_sidebar(soup: BeautifulSoup) -> list[dict]:
         seen_urls.add(url)
 
         # find parent section using level hierarchy
-        parts        = level.split(".")
+        parts = level.split(".")
         parent_level = ".".join(parts[:-1]) if len(parts) > 1 else level
-        section      = level_to_title.get(parent_level, title)
+        section = level_to_title.get(parent_level, title)
 
-        pages.append({
-            "url":     url,
-            "title":   title,
-            "level":   level,
-            "depth":   depth,
-            "section": section,
-        })
+        pages.append(
+            {
+                "url": url,
+                "title": title,
+                "level": level,
+                "depth": depth,
+                "section": section,
+            }
+        )
 
     return pages
 
@@ -89,7 +91,7 @@ def get_all_page_links() -> list[dict]:
     resp = requests.get(BASE_URL, timeout=15)
     resp.raise_for_status()
 
-    soup  = BeautifulSoup(resp.text, "lxml")
+    soup = BeautifulSoup(resp.text, "lxml")
     pages = parse_sidebar(soup)
 
     console.log(f"[green]{len(pages)} pages found[/]")
@@ -118,7 +120,7 @@ def fetch_page_text(url: str) -> dict:
         return {"text": "", "h1": ""}
 
     h1_tag = main.find("h1")
-    h1     = h1_tag.get_text(strip=True) if h1_tag else ""
+    h1 = h1_tag.get_text(strip=True) if h1_tag else ""
 
     # remove noise elements
     for tag in main.find_all(["script", "style", "nav", "footer", "header"]):
@@ -142,10 +144,10 @@ def main():
 
     # preview structure
     preview_table = Table(title="Structure preview (first 10 pages)")
-    preview_table.add_column("Level",   style="cyan",  no_wrap=True)
+    preview_table.add_column("Level", style="cyan", no_wrap=True)
     preview_table.add_column("Section", style="yellow")
-    preview_table.add_column("Title",   style="white")
-    preview_table.add_column("URL",     style="dim",   overflow="fold")
+    preview_table.add_column("Title", style="white")
+    preview_table.add_column("URL", style="dim", overflow="fold")
 
     for p in pages[:10]:
         preview_table.add_row(p["level"], p["section"], p["title"], p["url"])
@@ -154,7 +156,7 @@ def main():
     console.print()
 
     corpus: list[dict] = []
-    errors: list[str]  = []
+    errors: list[str] = []
 
     # 2. crawl each page
     for page in track(pages, description="[cyan]Crawling...[/]"):
@@ -165,13 +167,15 @@ def main():
                 console.log(f"[yellow]SKIP empty:[/] {page['url']}")
                 continue
 
-            corpus.append({
-                "url":     page["url"],
-                "title":   content["h1"] or page["title"],
-                "section": page["section"],
-                "level":   page["level"],
-                "text":    content["text"],
-            })
+            corpus.append(
+                {
+                    "url": page["url"],
+                    "title": content["h1"] or page["title"],
+                    "section": page["section"],
+                    "level": page["level"],
+                    "text": content["text"],
+                }
+            )
 
             time.sleep(DELAY)
 
@@ -198,11 +202,12 @@ def main():
 
     # 5. pages per section
     from collections import Counter
+
     section_counts = Counter(d["section"] for d in corpus)
 
-    section_table  = Table(title="Pages per section")
+    section_table = Table(title="Pages per section")
     section_table.add_column("Section", style="yellow")
-    section_table.add_column("Pages",   style="cyan", justify="right")
+    section_table.add_column("Pages", style="cyan", justify="right")
 
     for section, count in section_counts.most_common():
         section_table.add_row(section, str(count))

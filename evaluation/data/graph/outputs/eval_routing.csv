@@ -1,0 +1,2 @@
+input,description,expected_path,actual_path,pass
+Hi there!,Greeting → conversational shortcut,classify → conversational,classify → conversational,True

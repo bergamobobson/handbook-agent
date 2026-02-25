@@ -1,0 +1,75 @@
+# ══════════════════════════════════════════════════════════════════════════════
+# LASH TEST CASES
+#
+# Structuré par catégorie — le loader injecte automatiquement le champ
+# "category" dans chaque test case.
+#
+# input    : question posée à l'agent
+# expected : ce qu'une bonne réponse DOIT contenir
+# ══════════════════════════════════════════════════════════════════════════════
+
+culture:
+  - input: "What are the core values of Agile Lab?"
+    expected: >
+      The answer should mention Agile Lab's core values such as transparency,
+      trust, collaboration, or similar values described in the handbook.
+
+  - input: "How does Agile Lab define its mission?"
+    expected: >
+      The answer should describe Agile Lab's mission or purpose
+      as stated in the handbook.
+
+hr:
+  - input: "How many vacation days do Agile Lab employees get?"
+    expected: >
+      The answer should specify the number of vacation days or PTO policy
+      described in the handbook.
+
+  - input: "What is the parental leave policy at Agile Lab?"
+    expected: >
+      The answer should describe the parental leave policy including
+      duration and eligibility.
+
+  - input: "Does Agile Lab offer a remote work policy?"
+    expected: >
+      The answer should explain the remote work policy, including any rules
+      or flexibility offered.
+
+engineering:
+  - input: "How does the engineering career ladder work at Agile Lab?"
+    expected: >
+      The answer should explain the engineering levels, progression criteria,
+      or career path described in the handbook.
+
+  - input: "What is the code review process at Agile Lab?"
+    expected: >
+      The answer should describe how code reviews are conducted, including
+      expectations and best practices.
+
+process:
+  - input: "What is the onboarding process for new employees?"
+    expected: >
+      The answer should describe the steps and timeline for onboarding
+      a new Agile Lab employee.
+
+  - input: "How does the referral program work?"
+    expected: >
+      The answer should explain how employees can refer candidates and what
+      the referral fee or incentive is.
+
+off_topic:
+  - input: "How do I implement a binary search tree in Python?"
+    expected: >
+      The answer should politely decline and explain it can only answer
+      questions about the Agile Lab handbook.
+
+  - input: "What is the capital of France?"
+    expected: >
+      The answer should politely decline and explain it can only answer
+      questions about the Agile Lab handbook.
+
+not_found:
+  - input: "What is the exact salary for a Senior Engineer?"
+    expected: >
+      The answer should acknowledge it cannot find this specific information
+      in the handbook and suggest asking internally.s

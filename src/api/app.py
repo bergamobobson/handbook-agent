@@ -12,6 +12,7 @@
 ╚══════════════════════════════════════════════════════════════╝
 """
 
+import os
 from contextlib import asynccontextmanager
 from pathlib import Path
 
@@ -28,8 +29,8 @@ from src.agent.agent import HandbookAgent
 load_dotenv()
 
 # app.py est dans src/api/ → remonter 3 niveaux pour la racine du projet
-ROOT_DIR   = Path(__file__).parent.parent.parent
-UI_DIR     = ROOT_DIR / "src" / "ui"
+ROOT_DIR = Path(__file__).parent.parent.parent
+UI_DIR = ROOT_DIR / "src" / "ui"
 STATIC_DIR = ROOT_DIR / "static"
 
 
@@ -39,10 +40,12 @@ STATIC_DIR = ROOT_DIR / "static"
 
 resources = {}
 
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     print("Demarrage — initialisation de l'agent...")
-    llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+    model_name = os.getenv("MODEL_NAME")
+    llm = ChatOpenAI(model=model_name, temperature=0)
     resources["agent"] = HandbookAgent(model=llm)
     print("Agent pret")
     yield
@@ -54,20 +57,23 @@ async def lifespan(app: FastAPI):
 # SCHEMAS
 # ══════════════════════════════════════════════════════════════════════════════
 
+
 class AskRequest(BaseModel):
-    question  : str = Field(description="La question a poser sur le handbook")
-    thread_id : str = Field(
+    question: str = Field(description="La question a poser sur le handbook")
+    thread_id: str = Field(
         default="default",
-        description="ID de session — meme thread_id = meme conversation"
+        description="ID de session — meme thread_id = meme conversation",
     )
 
+
 class AskResponse(BaseModel):
-    answer   : str = Field(description="Reponse generee par l'agent")
-    source   : str = Field(description="'handbook' ou 'web'")
-    question : str = Field(description="Question originale")
+    answer: str = Field(description="Reponse generee par l'agent")
+    source: str = Field(description="'handbook' ou 'web'")
+    question: str = Field(description="Question originale")
+
 
 class HealthResponse(BaseModel):
-    status     : str
+    status: str
     agent_ready: bool
 
 
@@ -76,10 +82,10 @@ class HealthResponse(BaseModel):
 # ══════════════════════════════════════════════════════════════════════════════
 
 app = FastAPI(
-    title       = "Agile Lab Handbook API",
-    description = "RAG chatbot base sur le handbook Agile Lab",
-    version     = "2.0.0",
-    lifespan    = lifespan,
+    title="Agile Lab Handbook API",
+    description="RAG chatbot base sur le handbook Agile Lab",
+    version="2.0.0",
+    lifespan=lifespan,
 )
 
 # Sert les fichiers statiques (logo, images...)
@@ -88,6 +94,7 @@ app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
 # GET / → UI
 
+
 @app.get("/", include_in_schema=False)
 def ui():
     return FileResponse(UI_DIR / "index.html")
@@ -95,15 +102,17 @@ def ui():
 
 # GET /health
 
+
 @app.get("/health", response_model=HealthResponse)
 def health():
     return HealthResponse(
-        status      = "ok",
-        agent_ready = "agent" in resources,
+        status="ok",
+        agent_ready="agent" in resources,
     )
 
 
 # POST /ask
+
 
 @app.post("/ask", response_model=AskResponse)
 def ask(request: AskRequest):
@@ -124,9 +133,9 @@ def ask(request: AskRequest):
             thread_id=request.thread_id,
         )
         return AskResponse(
-            answer   = answer,
-            source   = source,
-            question = request.question,
+            answer=answer,
+            source=source,
+            question=request.question,
         )
 
     except Exception as e:

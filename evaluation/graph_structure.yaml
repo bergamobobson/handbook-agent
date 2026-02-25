@@ -1,0 +1,47 @@
+# ╔══════════════════════════════════════════════════════════════╗
+# ║  GRAPH CONFIG — HandbookAgent                                ║
+# ║                                                              ║
+# ║  Définit la structure ATTENDUE du LangGraph.                 ║
+# ║  Utilisé par graph_eval.py pour valider l'agent.             ║
+# ║                                                              ║
+# ║  Mettre à jour ce fichier si tu changes l'architecture.      ║
+# ╚══════════════════════════════════════════════════════════════╝
+
+# ── Nœuds ─────────────────────────────────────────────────────────────────────
+# Hors __start__ et __end__ qui sont ajoutés automatiquement par LangGraph.
+
+nodes:
+  expected:
+    - classify
+    - retrieve
+    - grade
+    - generate
+    - conversational
+    - off_topic
+    - not_found
+
+  count: 7  # doit correspondre à len(expected)
+
+
+tool_nodes:
+  count: 0
+
+
+direct_edges:
+  - [__start__, classify]
+  - [retrieve,  grade]
+  - [generate,      __end__]
+  - [conversational,__end__]
+  - [off_topic,     __end__]
+  - [not_found,     __end__]
+
+
+
+conditional_edges:
+  classify:
+    - retrieve
+    - conversational
+    - off_topic
+  grade:
+    - generate
+    - not_found

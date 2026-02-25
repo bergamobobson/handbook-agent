@@ -1,0 +1,26 @@
+# ══════════════════════════════════════════════════════
+# NODE TEST CASES
+# ══════════════════════════════════════════════════════
+
+classify:
+  - input: "Hi!"
+    expected_intent: conversational
+  - input: "What are Agile Lab's core values?"
+    expected_intent: handbook
+  - input: "What is Docker?"
+    expected_intent: off_topic
+
+retrieve:
+  - input: "What are the core values of Agile Lab?"
+    relevant_keywords: [value, trust, transparency, collaboration, principle]
+
+grade:
+  - input: "What are the core values of Agile Lab?"
+    documents:
+      - "Agile Lab's core values include transparency, trust, and collaboration."
+    expected_relevant: true
+
+routing:
+  - input: "Hi there!"
+    expected_path: [classify, conversational]
+    description: "Greeting → conversational shortcut"

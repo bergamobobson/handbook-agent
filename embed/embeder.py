@@ -3,9 +3,9 @@ import os
 from pathlib import Path
 
 from dotenv import load_dotenv
+from langchain_chroma import Chroma
 from langchain_classic.schema import Document
 from langchain_classic.text_splitter import RecursiveCharacterTextSplitter
-from langchain_chroma import Chroma
 from langchain_openai import OpenAIEmbeddings
 from rich.console import Console
 from rich.progress import BarColumn, MofNCompleteColumn, Progress, TextColumn
@@ -14,13 +14,13 @@ from rich.table import Table
 load_dotenv()
 console = Console()
 
-CORPUS_PATH     = Path("./data/corpus.json")
-CHROMA_DIR      = os.getenv("CHROMA_PERSIST_DIR")
+CORPUS_PATH = Path("./data/corpus.json")
+CHROMA_DIR = os.getenv("CHROMA_PERSIST_DIR")
 COLLECTION_NAME = "agilelab_handbook"
 
-CHUNK_SIZE    = 700
+CHUNK_SIZE = 700
 CHUNK_OVERLAP = 100
-BATCH_SIZE    = 100
+BATCH_SIZE = 100
 
 
 def load_corpus(path: Path) -> list[dict]:
@@ -42,11 +42,11 @@ def build_documents(corpus: list[dict]) -> list[Document]:
             Document(
                 page_content=entry["text"],
                 metadata={
-                    "url":     entry["url"],
-                    "title":   entry["title"],
+                    "url": entry["url"],
+                    "title": entry["title"],
                     "section": entry["section"],
-                    "level":   entry["level"],
-                    "source":  entry["url"],
+                    "level": entry["level"],
+                    "source": entry["url"],
                 },
             )
         )
@@ -85,7 +85,9 @@ def ingest_to_chroma(chunks: list[Document]) -> Chroma:
     # Clean existing data
     existing = vectorstore.get()
     if existing["ids"]:
-        console.log(f"[yellow]Suppression de {len(existing['ids'])} vecteurs existants...[/]")
+        console.log(
+            f"[yellow]Suppression de {len(existing['ids'])} vecteurs existants...[/]"
+        )
         vectorstore.delete(ids=existing["ids"])
 
     # Ingest in batches
@@ -96,13 +98,15 @@ def ingest_to_chroma(chunks: list[Document]) -> Chroma:
     ) as progress:
         task = progress.add_task("ingest", total=len(chunks))
         for start in range(0, len(chunks), BATCH_SIZE):
-            batch     = chunks[start : start + BATCH_SIZE]
-            texts     = [c.page_content for c in batch]
+            batch = chunks[start : start + BATCH_SIZE]
+            texts = [c.page_content for c in batch]
             metadatas = [c.metadata for c in batch]
             vectorstore.add_texts(texts=texts, metadatas=metadatas)
             progress.advance(task, advance=len(batch))
 
-    console.print(f"[bold green]✅ {len(chunks)} chunks stockés dans Chroma → {CHROMA_DIR}[/]")
+    console.print(
+        f"[bold green]✅ {len(chunks)} chunks stockés dans Chroma → {CHROMA_DIR}[/]"
+    )
     return vectorstore
 
 
@@ -120,9 +124,9 @@ def test_retrieval(vectorstore: Chroma):
     for query in test_queries:
         results = retriever.invoke(query)
         table = Table(title=f'❓ "{query}"')
-        table.add_column("Page",    style="yellow", no_wrap=True)
+        table.add_column("Page", style="yellow", no_wrap=True)
         table.add_column("Section", style="cyan")
-        table.add_column("Aperçu",  style="white", overflow="fold")
+        table.add_column("Aperçu", style="white", overflow="fold")
 
         for doc in results:
             table.add_row(
@@ -136,9 +140,9 @@ def test_retrieval(vectorstore: Chroma):
 
 def main():
     console.print("\n[bold magenta]══ ÉTAPE 2 : Chunking + Embeddings + Chroma ══[/]\n")
-    corpus      = load_corpus(CORPUS_PATH)
-    docs        = build_documents(corpus)
-    chunks      = chunk_documents(docs)
+    corpus = load_corpus(CORPUS_PATH)
+    docs = build_documents(corpus)
+    chunks = chunk_documents(docs)
     vectorstore = ingest_to_chroma(chunks)
     test_retrieval(vectorstore)
 
