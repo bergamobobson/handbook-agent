@@ -1,0 +1,140 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 620" width="620" height="620">
+  <defs>
+    <marker id="arr-blue"   markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#38bdf8"/></marker>
+    <marker id="arr-orange" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#fb923c"/></marker>
+    <marker id="arr-violet" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#c084fc"/></marker>
+    <marker id="arr-gray"   markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#94a3b8"/></marker>
+
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%"   stop-color="#020617"/>
+      <stop offset="50%"  stop-color="#0f0a2e"/>
+      <stop offset="100%" stop-color="#020617"/>
+    </linearGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0L0 0 0 40" fill="none" stroke="#ffffff07" stroke-width="0.5"/>
+    </pattern>
+    <radialGradient id="glow-c" cx="50%" cy="42%" r="48%">
+      <stop offset="0%"   stop-color="#818cf820"/>
+      <stop offset="100%" stop-color="#00000000"/>
+    </radialGradient>
+
+    <filter id="fb"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <filter id="fo"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <filter id="fv"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="620" height="620" fill="url(#bg)"/>
+  <rect width="620" height="620" fill="url(#grid)"/>
+  <rect width="620" height="620" fill="url(#glow-c)"/>
+  <circle cx="60"  cy="60"  r="120" fill="none" stroke="#818cf810" stroke-width="1"/>
+  <circle cx="560" cy="560" r="140" fill="none" stroke="#c084fc10" stroke-width="1"/>
+  <circle cx="310" cy="310" r="230" fill="none" stroke="#ffffff04" stroke-width="0.5"/>
+
+  <!-- animateMotion paths -->
+  <path id="pm0"  d="M310,52  L310,98"                     fill="none"/>
+  <path id="pm1"  d="M310,150 L310,206"                    fill="none"/>
+  <path id="pm2"  d="M310,256 L310,306"                    fill="none"/>
+  <path id="pm-ce" d="M100,468 Q80,560 258,570"            fill="none"/>
+  <path id="pm-ge" d="M256,468 L276,560"                   fill="none"/>
+  <path id="pm-ne" d="M364,468 L344,560"                   fill="none"/>
+  <path id="pm-oe" d="M520,468 Q540,560 362,570"           fill="none"/>
+
+  <!-- ══ EDGES ══════════════════════════════════════════════════════════ -->
+
+  <!-- __start__ → classify  BLUE SOLID -->
+  <line x1="310" y1="52" x2="310" y2="98" stroke="#38bdf8" stroke-width="2" marker-end="url(#arr-blue)"/>
+  <circle r="3" fill="#7dd3fc"><animateMotion dur="0.7s" repeatCount="indefinite"><mpath href="#pm0"/></animateMotion></circle>
+
+  <!-- classify → retrieve  ORANGE DASHED -->
+  <line x1="310" y1="150" x2="310" y2="206" stroke="#fb923c" stroke-width="1.5" stroke-dasharray="5,4" marker-end="url(#arr-orange)">
+    <animate attributeName="stroke-dashoffset" from="0" to="-18" dur="0.4s" repeatCount="indefinite"/>
+  </line>
+  <rect x="316" y="166" width="62" height="15" rx="3" fill="#0f0a2ecc"/>
+  <text x="347" y="177" text-anchor="middle" font-size="10" font-family="monospace" fill="#fb923c">handbook</text>
+
+  <!-- classify → conversational  ORANGE DASHED (left) -->
+  <path d="M278,124 Q80,124 80,420" stroke="#fb923c" stroke-width="1.5" stroke-dasharray="5,4" fill="none" marker-end="url(#arr-orange)">
+    <animate attributeName="stroke-dashoffset" from="0" to="-18" dur="0.4s" repeatCount="indefinite"/>
+  </path>
+  <rect x="78" y="200" width="90" height="15" rx="3" fill="#0f0a2ecc"/>
+  <text x="123" y="211" text-anchor="middle" font-size="10" font-family="monospace" fill="#fb923c">conversational</text>
+
+  <!-- classify → off_topic  ORANGE DASHED (right) -->
+  <path d="M342,124 Q540,124 540,420" stroke="#fb923c" stroke-width="1.5" stroke-dasharray="5,4" fill="none" marker-end="url(#arr-orange)">
+    <animate attributeName="stroke-dashoffset" from="0" to="-18" dur="0.4s" repeatCount="indefinite"/>
+  </path>
+  <rect x="452" y="200" width="62" height="15" rx="3" fill="#0f0a2ecc"/>
+  <text x="483" y="211" text-anchor="middle" font-size="10" font-family="monospace" fill="#fb923c">off_topic</text>
+
+  <!-- retrieve → grade  BLUE SOLID -->
+  <line x1="310" y1="256" x2="310" y2="306" stroke="#38bdf8" stroke-width="2" marker-end="url(#arr-blue)"/>
+  <path id="pm-rg" d="M310,256 L310,306" fill="none"/>
+  <circle r="3" fill="#7dd3fc"><animateMotion dur="0.7s" begin="0.2s" repeatCount="indefinite"><mpath href="#pm-rg"/></animateMotion></circle>
+
+  <!-- grade → generate  VIOLET DASHED -->
+  <path d="M284,356 Q230,400 230,420" stroke="#c084fc" stroke-width="1.5" stroke-dasharray="5,4" fill="none" marker-end="url(#arr-violet)">
+    <animate attributeName="stroke-dashoffset" from="0" to="-18" dur="0.4s" repeatCount="indefinite"/>
+  </path>
+  <rect x="210" y="388" width="56" height="15" rx="3" fill="#0f0a2ecc"/>
+  <text x="238" y="399" text-anchor="middle" font-size="10" font-family="monospace" fill="#c084fc">relevant</text>
+
+  <!-- grade → not_found  VIOLET DASHED -->
+  <path d="M336,356 Q390,400 390,420" stroke="#c084fc" stroke-width="1.5" stroke-dasharray="5,4" fill="none" marker-end="url(#arr-violet)">
+    <animate attributeName="stroke-dashoffset" from="0" to="-18" dur="0.4s" repeatCount="indefinite"/>
+  </path>
+  <rect x="342" y="388" width="80" height="15" rx="3" fill="#0f0a2ecc"/>
+  <text x="382" y="399" text-anchor="middle" font-size="10" font-family="monospace" fill="#c084fc">not relevant</text>
+
+  <!-- leaf → __end__  GRAY -->
+  <path d="M100,468 Q80,560 258,570"   stroke="#334155" stroke-width="1.5" fill="none" marker-end="url(#arr-gray)"/>
+  <circle r="2.5" fill="#94a3b8"><animateMotion dur="1.5s" begin="0.0s" repeatCount="indefinite"><mpath href="#pm-ce"/></animateMotion></circle>
+
+  <line x1="256" y1="468" x2="276" y2="560" stroke="#334155" stroke-width="1.5" marker-end="url(#arr-gray)"/>
+  <circle r="2.5" fill="#94a3b8"><animateMotion dur="0.9s" begin="0.3s" repeatCount="indefinite"><mpath href="#pm-ge"/></animateMotion></circle>
+
+  <line x1="364" y1="468" x2="344" y2="560" stroke="#334155" stroke-width="1.5" marker-end="url(#arr-gray)"/>
+  <circle r="2.5" fill="#94a3b8"><animateMotion dur="0.9s" begin="0.5s" repeatCount="indefinite"><mpath href="#pm-ne"/></animateMotion></circle>
+
+  <path d="M520,468 Q540,560 362,570"  stroke="#334155" stroke-width="1.5" fill="none" marker-end="url(#arr-gray)"/>
+  <circle r="2.5" fill="#94a3b8"><animateMotion dur="1.5s" begin="0.7s" repeatCount="indefinite"><mpath href="#pm-oe"/></animateMotion></circle>
+
+  <!-- ══ NODES ══════════════════════════════════════════════════════════ -->
+
+  <!-- __start__ -->
+  <ellipse cx="310" cy="32" rx="58" ry="22" fill="#162032" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="310" y="37" text-anchor="middle" font-size="12" font-family="monospace" fill="#7dd3fc">__start__</text>
+
+  <!-- classify  BLUE — entry point -->
+  <rect x="248" y="98" width="124" height="52" rx="8" fill="#1e3a5f" stroke="#38bdf8" stroke-width="2" filter="url(#fb)"/>
+  <text x="310" y="129" text-anchor="middle" font-size="15" font-family="monospace" fill="#7dd3fc">classify</text>
+
+  <!-- retrieve  ORANGE -->
+  <rect x="248" y="206" width="124" height="50" rx="8" fill="#3a1a00" stroke="#fb923c" stroke-width="2" filter="url(#fo)"/>
+  <text x="310" y="236" text-anchor="middle" font-size="15" font-family="monospace" fill="#fdba74">retrieve</text>
+
+  <!-- grade  VIOLET -->
+  <rect x="262" y="306" width="96" height="50" rx="8" fill="#2a0f45" stroke="#c084fc" stroke-width="2" filter="url(#fv)"/>
+  <text x="310" y="336" text-anchor="middle" font-size="15" font-family="monospace" fill="#d8b4fe">grade</text>
+
+  <!-- conversational  ORANGE -->
+  <rect x="22"  y="420" width="156" height="48" rx="8" fill="#3a1a00" stroke="#fb923c" stroke-width="2" filter="url(#fo)"/>
+  <text x="100" y="449" text-anchor="middle" font-size="12" font-family="monospace" fill="#fb923c">conversational</text>
+
+  <!-- generate  VIOLET -->
+  <rect x="188" y="420" width="120" height="48" rx="8" fill="#2a0f45" stroke="#c084fc" stroke-width="2" filter="url(#fv)"/>
+  <text x="248" y="449" text-anchor="middle" font-size="14" font-family="monospace" fill="#d8b4fe">generate</text>
+
+  <!-- not_found  VIOLET -->
+  <rect x="320" y="420" width="120" height="48" rx="8" fill="#2a0f45" stroke="#c084fc" stroke-width="2" filter="url(#fv)"/>
+  <text x="380" y="449" text-anchor="middle" font-size="13" font-family="monospace" fill="#d8b4fe">not_found</text>
+
+  <!-- off_topic  ORANGE -->
+  <rect x="452" y="420" width="120" height="48" rx="8" fill="#3a1a00" stroke="#fb923c" stroke-width="2" filter="url(#fo)"/>
+  <text x="512" y="449" text-anchor="middle" font-size="13" font-family="monospace" fill="#fb923c">off_topic</text>
+
+  <!-- __end__ -->
+  <ellipse cx="310" cy="578" rx="62" ry="22" fill="#2a0f45" stroke="#c084fc" stroke-width="1.5"/>
+  <text x="310" y="583" text-anchor="middle" font-size="12" font-family="monospace" fill="#d8b4fe">__end__</text>
+
+</svg>
