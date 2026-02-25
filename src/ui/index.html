@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agile Lab Handbook Assistant</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="logo-wrap">
+      <img
+        class="logo-img"
+        src="/static/agilelab_logo.jpeg"
+        alt="Agile Lab"
+        onerror="this.style.display='none'; document.getElementById('logo-fallback').style.display='block';"
+      >
+      <div id="logo-fallback" class="logo-text" style="display:none">agile<span>lab</span></div>
+    </div>
+
+    <div class="sidebar-divider"></div>
+
+    <div>
+      <div class="sidebar-label">Suggested questions</div>
+      <div class="suggestions">
+        <button class="suggestion" onclick="sendSuggestion(this)">What are the core values of Agile Lab?</button>
+        <button class="suggestion" onclick="sendSuggestion(this)">How many vacation days do employees get?</button>
+        <button class="suggestion" onclick="sendSuggestion(this)">How does the engineering ladder work?</button>
+        <button class="suggestion" onclick="sendSuggestion(this)">What is the referral fee policy?</button>
+        <button class="suggestion" onclick="sendSuggestion(this)">How does remote work work at Agile Lab?</button>
+        <button class="suggestion" onclick="sendSuggestion(this)">What is the onboarding process?</button>
+      </div>
+    </div>
+
+    <div class="status">
+      <div class="status-dot"></div>
+      <span>Handbook indexed & ready</span>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+    <header class="header">
+      <div class="header-title">Handbook Assistant</div>
+      <div class="header-badge">RAG · GPT-4o mini</div>
+    </header>
+
+    <div class="messages" id="messages">
+      <div class="welcome" id="welcome">
+        <!-- <img
+          class="welcome-logo"
+          src="/static/agilelab_logo.jpeg"
+          alt="Agile Lab"
+          onerror="this.style.display='none'; document.getElementById('welcome-logo-fallback').style.display='block';"
+        > -->
+        <div id="welcome-logo-fallback" class="welcome-logo-text" style="display:none">agile<span>lab</span></div>
+        <h1>How can I help you?</h1>
+        <p>Ask anything about Agile Lab's policies, culture, benefits, and engineering practices.</p>
+        <div class="welcome-chips">
+          <div class="welcome-chip" onclick="fillInput('What are Agile Lab values?')">Values & culture</div>
+          <div class="welcome-chip" onclick="fillInput('How many vacation days?')">Vacation policy</div>
+          <div class="welcome-chip" onclick="fillInput('How does the engineering ladder work?')">Engineering ladder</div>
+          <div class="welcome-chip" onclick="fillInput('How does remote work work?')">Remote work</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="input-area">
+      <div class="input-wrap">
+        <textarea id="input" rows="1" placeholder="Ask about the handbook…"></textarea>
+        <button id="send" onclick="sendMessage()">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="22" y1="2" x2="11" y2="13"></line>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+          </svg>
+        </button>
+      </div>
+      <div class="input-hint">Enter to send · Shift+Enter for new line</div>
+    </div>
+  </main>
+
+</div>
+
+<script src="/static/app.js"></script>
+</body>
+</html>
