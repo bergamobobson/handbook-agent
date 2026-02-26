@@ -1,7 +1,9 @@
+from pathlib import Path
+
 import mlflow
 import yaml
-from pathlib import Path
 from rich.console import Console
+
 from src.agent.agent import HandbookAgent
 
 console = Console()
@@ -37,7 +39,9 @@ class GraphStructureEvaluator:
 
     def _eval_structure(self) -> dict:
         """Compare la structure réelle du graph avec celle attendue."""
-        console.print("\n[cyan]── Éval structure du graph ──────────────────────────[/]")
+        console.print(
+            "\n[cyan]── Éval structure du graph ──────────────────────────[/]"
+        )
 
         g = self.agent.graph.get_graph()
         actual_nodes = set(g.nodes.keys()) - {"__start__", "__end__"}
@@ -47,20 +51,31 @@ class GraphStructureEvaluator:
         # 1. Nombre total de nœuds
         n_actual = len(actual_nodes)
         count_ok = n_actual == self.expected["n_nodes"]
-        checks["node_count"] = (count_ok, f"attendu={self.expected['n_nodes']} trouvé={n_actual}")
-        console.print(f"\n  {'✅' if count_ok else '❌'} Nombre de nœuds : {n_actual} / {self.expected['n_nodes']}")
+        checks["node_count"] = (
+            count_ok,
+            f"attendu={self.expected['n_nodes']} trouvé={n_actual}",
+        )
+        console.print(
+            f"\n  {'✅' if count_ok else '❌'} Nombre de nœuds : {n_actual} / {self.expected['n_nodes']}"
+        )
 
         # 2. ToolNodes
         n_tool = sum(
-            1 for name, node in g.nodes.items()
+            1
+            for name, node in g.nodes.items()
             if "tool" in name.lower()
             or (hasattr(node, "data") and "ToolNode" in type(node.data).__name__)
         )
         tool_ok = n_tool == self.expected["n_tool_nodes"]
-        checks["tool_node_count"] = (tool_ok, f"attendu={self.expected['n_tool_nodes']} trouvé={n_tool}")
-        console.print(f"  {'✅' if tool_ok else '❌'} ToolNodes : {n_tool} / {self.expected['n_tool_nodes']}")
+        checks["tool_node_count"] = (
+            tool_ok,
+            f"attendu={self.expected['n_tool_nodes']} trouvé={n_tool}",
+        )
+        console.print(
+            f"  {'✅' if tool_ok else '❌'} ToolNodes : {n_tool} / {self.expected['n_tool_nodes']}"
+        )
 
-       # 3. Noms de nœuds
+        # 3. Noms de nœuds
         missing = self.expected["nodes"] - actual_nodes
         extra = actual_nodes - self.expected["nodes"]
         nodes_ok = len(missing) == 0
@@ -68,7 +83,9 @@ class GraphStructureEvaluator:
             nodes_ok,
             f"manquants={sorted(missing) or 'empty'} inattendus={sorted(extra) or 'empty'}",
         )
-        console.print(f"  {'✅' if nodes_ok else '❌'} Nœuds présents : {sorted(actual_nodes)}")
+        console.print(
+            f"  {'✅' if nodes_ok else '❌'} Nœuds présents : {sorted(actual_nodes)}"
+        )
         if missing:
             console.print(f"       [red]Manquants  : {sorted(missing)}[/]")
         if extra:
@@ -95,7 +112,9 @@ class GraphStructureEvaluator:
                 present = dst in actual_dsts
                 if not present:
                     all_cond_ok = False
-                console.print(f"       {'✅' if present else '❌'}  {src} --[cond]--> {dst}")
+                console.print(
+                    f"       {'✅' if present else '❌'}  {src} --[cond]--> {dst}"
+                )
         checks["conditional_edges"] = (all_cond_ok, "")
 
         all_passed = all(ok for ok, _ in checks.values())
@@ -123,16 +142,18 @@ class GraphStructureEvaluator:
         with mlflow.start_run(run_name="StructureEval", nested=True) as run:
             result = self._eval_structure()
 
-            mlflow.log_metrics({
-                "nodes_ok": int(result["nodes_ok"]),
-                "tool_nodes_ok": int(result["tool_nodes_ok"]),
-                "direct_edges_ok": int(result["direct_edges_ok"]),
-                "conditional_edges_ok": int(result["conditional_edges_ok"]),
-                "structure_all_ok": int(result["all_ok"]),
-                "n_nodes": result["n_nodes"],
-                "n_tool_nodes": result["n_tool_nodes"],
-                "n_edges": result["n_edges"],
-            })
+            mlflow.log_metrics(
+                {
+                    "nodes_ok": int(result["nodes_ok"]),
+                    "tool_nodes_ok": int(result["tool_nodes_ok"]),
+                    "direct_edges_ok": int(result["direct_edges_ok"]),
+                    "conditional_edges_ok": int(result["conditional_edges_ok"]),
+                    "structure_all_ok": int(result["all_ok"]),
+                    "n_nodes": result["n_nodes"],
+                    "n_tool_nodes": result["n_tool_nodes"],
+                    "n_edges": result["n_edges"],
+                }
+            )
 
             console.print(f"MLflow run : {run.info.run_id}")
 

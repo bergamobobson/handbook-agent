@@ -68,7 +68,7 @@ class AskRequest(BaseModel):
 
 class AskResponse(BaseModel):
     answer: str = Field(description="Reponse generee par l'agent")
-    source: str = Field(description="'handbook' ou 'web'")
+    source: str = Field(description="'handbook', 'conversational', ou 'off_topic'")
     question: str = Field(description="Question originale")
 
 

@@ -304,8 +304,15 @@ Always respond in the same language as the user's message."""
 
     def __call__(self, question: str, thread_id: str = None) -> tuple[str, str]:
         config = {"configurable": {"thread_id": thread_id or self.thread_id}}
+        
+        # We invoke the graph. The final result contains the full AgentState.
         result = self.graph.invoke(
-            {"messages": [HumanMessage(content=question)], "source": "handbook"},
+            {"messages": [HumanMessage(content=question)]}, 
             config=config,
         )
-        return result["answer"], result.get("source", "handbook")
+        
+        # Extract the answer and use the 'intent' field as the source
+        answer = result.get("answer", "No answer generated.")
+        source_finale = result.get("intent", "off_topic")
+        
+        return answer, source_finale

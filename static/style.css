@@ -308,6 +308,8 @@ html, body {
   border-radius: var(--radius) var(--radius) var(--radius) 4px;
 }
 
+/* ── Source Tags — Couleurs par catégorie ── */
+
 .source-tag {
   display: inline-flex;
   align-items: center;
@@ -319,18 +321,29 @@ html, body {
   padding: 3px 8px;
   border-radius: 4px;
   margin-bottom: 10px;
+  border-width: 1px;
+  border-style: solid;
 }
 
+/* Vert pour le Handbook */
 .source-tag.handbook {
-  background: var(--teal-light);
-  color: var(--teal-dark);
-  border: 1px solid rgba(0,184,200,0.25);
+  background: #E8F5E9;
+  color: #2E7D32;
+  border-color: rgba(46, 125, 50, 0.25);
 }
 
-.source-tag.web {
-  background: #FFF3E8;
-  color: #D4720A;
-  border: 1px solid rgba(212,114,10,0.25);
+/* Cyan/Bleu pour le Chat classique */
+.source-tag.conversational {
+  background: #E0F7FA;
+  color: #00838F;
+  border-color: rgba(0, 131, 143, 0.25);
+}
+
+/* Rouge pour le Hors-sujet */
+.source-tag.off_topic {
+  background: #FFEBEE;
+  color: #C62828;
+  border-color: rgba(198, 40, 40, 0.25);
 }
 
 .bubble strong { font-weight: 600; }

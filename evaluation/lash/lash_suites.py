@@ -1,5 +1,7 @@
-import yaml
 from pathlib import Path
+
+import yaml
+
 
 def load_test_cases() -> list[dict]:
 
@@ -11,5 +13,6 @@ def load_test_cases() -> list[dict]:
         for category, cases in data.items()
         for case in cases
     ]
+
 
 LASH_TEST_CASES = load_test_cases()

@@ -1,5 +1,6 @@
-import yaml
 from pathlib import Path
+
+import yaml
 
 
 def load_node_cases() -> dict:
@@ -8,8 +9,8 @@ def load_node_cases() -> dict:
         return yaml.safe_load(f)
 
 
-_data          = load_node_cases()
+_data = load_node_cases()
 CLASSIFY_CASES = _data["classify"]
 RETRIEVE_CASES = _data["retrieve"]
-GRADE_CASES    = _data["grade"]
-ROUTING_CASES  = _data["routing"]
+GRADE_CASES = _data["grade"]
+ROUTING_CASES = _data["routing"]

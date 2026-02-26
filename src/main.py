@@ -22,6 +22,7 @@ console = Console()
 
 
 def main():
+
     console.print(
         Panel(
             "[bold cyan]Agile Lab Handbook Assistant[/]\n"
@@ -61,8 +62,15 @@ def main():
         answer, source = agent(question)
 
         # ── Affichage de la réponse ───────────────────────────────────────
-        icon = "📚" if source == "handbook" else "🌐"
-        border_color = "green" if source == "handbook" else "yellow"
+        if source == "handbook":
+            icon = "📚"
+            border_color = "green"
+        elif source == "conversational":
+            icon = "💬"
+            border_color = "cyan"
+        else:  # off_topic
+            icon = "⚠️"
+            border_color = "red"
 
         console.print(
             Panel(
