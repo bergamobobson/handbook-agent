@@ -8,6 +8,7 @@ dependencies = [
     "beautifulsoup4>=4.14.3",
     "black>=26.1.0",
     "chromadb>=1.5.1",
+    "deep-translator>=1.11.4",
     "dotenv>=0.9.9",
     "fastapi>=0.133.0",
     "fasttext-langdetect>=1.0.5",

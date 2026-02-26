@@ -10,12 +10,8 @@ from langchain_core.messages import HumanMessage
 from rich.console import Console
 
 from evaluation.graph.graph_structure_eval import GraphStructureEvaluator
-from evaluation.graph.nodes import (
-    CLASSIFY_CASES,
-    GRADE_CASES,
-    RETRIEVE_CASES,
-    ROUTING_CASES,
-)
+from evaluation.graph.nodes import (CLASSIFY_CASES, GRADE_CASES,
+                                    RETRIEVE_CASES, ROUTING_CASES)
 
 load_dotenv()
 console = Console()

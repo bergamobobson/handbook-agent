@@ -6,12 +6,8 @@ import pandas as pd
 from dotenv import load_dotenv
 from rich.console import Console
 
-from evaluation.lash.lash_metrics import (
-    ALL_SCORERS,
-    PASS_THRESHOLDS,
-    WEIGHTS,
-    latency_to_score,
-)
+from evaluation.lash.lash_metrics import (ALL_SCORERS, PASS_THRESHOLDS,
+                                          WEIGHTS, latency_to_score)
 from src.agent.agent import HandbookAgent
 
 load_dotenv()
